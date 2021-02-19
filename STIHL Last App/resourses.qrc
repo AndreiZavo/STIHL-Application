@@ -1,0 +1,24 @@
+<RCC>
+  <qresource prefix="Icons">
+    <file>Icons/DataChoice.svg</file>
+    <file>Icons/Stihl_Logo.jpg</file>
+    <file>Icons/new_background.svg</file>
+    <file>Icons/Stihl_Server_IconToolBar.png</file>
+    <file>Icons/Home-Background.svg</file>
+    <file>Icons/List_Clients.svg</file>
+    <file>Icons/Stihl_Server_IconToolBar.svg</file>
+    <file>Icons/Maximaze-Icon.svg</file>
+    <file>Icons/Menu.svg</file>
+    <file>Icons/Minimaze-Icon.svg</file>
+    <file>Icons/New_Add.svg</file>
+    <file>Icons/New_Delete.svg</file>
+    <file>Icons/New-Home-Icon.svg</file>
+    <file>Icons/New-Search-Icon.svg</file>
+    <file>Icons/SearchBar-Icon.svg</file>
+    <file>Icons/Title-Banner.svg</file>
+    <file>Icons/WindowCloseButton.svg</file>
+    <file>Icons/MaximazeButton_2.svg</file>
+    <file>Icons/Stihl_Server_IconToolBar.svg</file>
+    <file>Icons/Stihl_Logo.jpg</file>
+  </qresource>
+</RCC>
