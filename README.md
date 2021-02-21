@@ -1,6 +1,6 @@
 
-# STIHL-Application - Client Managment Desktop Application
-## Simple database managment application built with Python and Qt framework
+# STIHL-Application - Client Managment Application
+### Simple database managment desktop application built with Python and Qt framework
 
 * General information
 * Technologies
