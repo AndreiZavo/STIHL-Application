@@ -14,7 +14,7 @@
 ---
 ## General info
  This application is meant to speed up and to render the managment of a great deal of clients. 
- The user can find in a matter of seconds a client's information not just due to the sorting feature and filter options, but can also scan his designeted barcode and his credentials wil appear instantly.
+ The user can find in a matter of seconds a client's information not just due to the sorting feature and filter options, but can also scan his designeted barcode and his credentials will appear instantly.
  I construct it entirely with Python and at the user interface level I used Qt framework which I connected afterwords with Python.  
 
 ---
