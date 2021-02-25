@@ -1,5 +1,5 @@
 
-# STIHL-Application - Client Managment Application
+# STIHL- Client Managment Application
 
 <p align="center"> <img src="./Images/favicon-7.png"> </p>
 
