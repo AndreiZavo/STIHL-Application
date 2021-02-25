@@ -54,5 +54,5 @@
 
 ---
 #### Thank you note
-I appreciate you reading this far. I have really been putting my heart and soul into this project especially that I needed to manage the work at the University too.
+I appreciate you for reading this summary of my project. I have really been putting my heart and soul into this project especially that I needed to manage the work at the University too.
 It is my first personal project of this sizes but certantly not the last 😉
