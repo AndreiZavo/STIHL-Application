@@ -56,3 +56,6 @@ class StackedWidget(QStackedWidget):
 
     def setPage5(self):
         self.setCurrentIndex(4)
+
+    def setPage6(self):
+        self.setCurrentIndex(5)

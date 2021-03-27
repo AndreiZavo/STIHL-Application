@@ -7,37 +7,18 @@
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
-import os
 
 import pyautogui
-import pandas as pd
 from PySide2.QtCore import (QCoreApplication, QMetaObject,
-                            QSize, Qt, QSortFilterProxyModel, QRect)
+                            QSize, Qt)
 from PySide2.QtGui import (QCursor, QFont,
                            QIcon)
 from PySide2.QtWidgets import *
-from ClientsTableView import TableModel
-from Domain.Client import Client
-from Repository import FileRepository
-from Service import Service
+from UI_py.AnimationLabel import AnimationLabel
 from UI_py.StackedWidget_transition import *
 
 
-def create_table_file_name(table_name):
-    project_root = os.path.dirname(os.path.dirname(__file__))
-    pth = project_root + '\\' + table_name
-    if not os.path.exists(pth):
-        f = open(pth, 'w+')
-        f.close()
-    return pth
-
-
-repository = FileRepository(create_table_file_name("Tabel_Clienti.csv"), Client.read_from_file, Client.write_to_file)
-service = Service(repository)
-
-#os.system('Pyrcc5 resourses.qrc -o resourses_rc.py')
-
-import resourses_rc
+# os.system('Pyrcc5 resourses.qrc -o resourses_rc.py')
 
 width_display, height_display = pyautogui.size()
 
@@ -390,7 +371,7 @@ class Ui_Main(object):
         self.searchbarLineEdit.setStyleSheet(u"color: white;\n"
                                              "border: 1px solid white;\n"
                                              "border-radius: 20%;\n"
-                                             "font-size: 30px;\n")
+                                             "font-size: 45px;\n")
         self.searchbarLineEdit.setMinimumHeight(height_display / 25.71)
         self.searchbarLineEdit.setPlaceholderText("Căutați aici...")
         self.searchbarLineEdit.setAlignment(Qt.AlignCenter)
@@ -444,16 +425,16 @@ class Ui_Main(object):
 
         self.clientsDataTableView = QTableView(self.SearchWidget)
 
-        data = pd.DataFrame(service.repository,
-                            columns=['Nume', 'ID', 'Creat la', 'Expiră la'])
-        self.model = TableModel(data)
-        # filter proxy model
-        self.filter_proxy_model = QSortFilterProxyModel()
-        self.filter_proxy_model.setSourceModel(self.model)
-        self.filter_proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
-        self.filter_proxy_model.setFilterKeyColumn(-1)  # -1 is for searching in all columns
+        # data = pd.DataFrame(service.repository,
+        #                     columns=['Nume', 'ID', 'Creat la', 'Expiră la'])
+        # self.model = TableModel(data)
+        # # filter proxy model
+        # self.filter_proxy_model = QSortFilterProxyModel()
+        # self.filter_proxy_model.setSourceModel(self.model)
+        # self.filter_proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
+        # self.filter_proxy_model.setFilterKeyColumn(-1)  # -1 is for searching in all columns
 
-        self.clientsDataTableView.setModel(self.filter_proxy_model)
+        # self.clientsDataTableView.setModel(self.filter_proxy_model)
         self.clientsDataTableView.verticalHeader().hide()  # REMOVE VERTICAL HEADER
         self.clientsDataTableView.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
         self.clientsDataTableView.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -701,7 +682,20 @@ class Ui_Main(object):
 
         self.horizontalLayout_5.addWidget(self.addLineEdit)
 
-        self.verticalLayout_6.addWidget(self.InsertNameFrame)
+        self.verticalLayout_6.addWidget(self.InsertNameFrame, 0, Qt.AlignBottom)
+
+        self.confirmationLabel = AnimationLabel(self.AddWidget)
+        self.confirmationLabel.setObjectName(u"confirmationLabel")
+        self.confirmationLabel.setMinimumSize(QSize(319, 108))
+        font10 = QFont()
+        font10.setFamily(u"Bahnschrift")
+        font10.setItalic(True)
+        self.confirmationLabel.setFont(font10)
+        self.confirmationLabel.setStyleSheet(u"font-size: 23px;\n"
+                                             "")
+        self.confirmationLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_6.addWidget(self.confirmationLabel)
 
         self.addButtonsFrame = QFrame(self.AddWidget)
         self.addButtonsFrame.setObjectName(u"addButtonsFrame")
@@ -820,6 +814,15 @@ class Ui_Main(object):
 
         self.verticalLayout_16.addLayout(self.verticalLayout_15)
 
+        self.confirmDeletionLabel = AnimationLabel(self.removeElementsFrame)
+        self.confirmDeletionLabel.setObjectName(u"confirmDeletionLabel")
+        self.confirmDeletionLabel.setMinimumSize(QSize(319, 108))
+        self.confirmDeletionLabel.setFont(font10)
+        self.confirmDeletionLabel.setStyleSheet(u"font-size: 23px")
+        self.confirmDeletionLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_16.addWidget(self.confirmDeletionLabel, 0, Qt.AlignCenter)
+
         self.removeButtonsFrame = QFrame(self.removeElementsFrame)
         self.removeButtonsFrame.setObjectName(u"removeButtonsFrame")
         self.removeButtonsFrame.setFrameShape(QFrame.StyledPanel)
@@ -886,14 +889,14 @@ class Ui_Main(object):
         self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
         self.removetableView = QTableView(self.removeTableFrame)
 
-        self.remove_model = TableModel(data)
-
-        self.remove_filter_proxy_model = QSortFilterProxyModel()
-        self.remove_filter_proxy_model.setSourceModel(self.remove_model)
-        self.remove_filter_proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
-        self.remove_filter_proxy_model.setFilterKeyColumn(-1)
-
-        self.removetableView.setModel(self.remove_filter_proxy_model)
+        # self.remove_model = TableModel(data)
+        #
+        # self.remove_filter_proxy_model = QSortFilterProxyModel()
+        # self.remove_filter_proxy_model.setSourceModel(self.remove_model)
+        # self.remove_filter_proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
+        # self.remove_filter_proxy_model.setFilterKeyColumn(-1)
+        #
+        # self.removetableView.setModel(self.remove_filter_proxy_model)
         self.removetableView.verticalHeader().hide()  # REMOVE VERTICAL HEADER
         self.removetableView.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
         self.removetableView.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -914,6 +917,80 @@ class Ui_Main(object):
         self.horizontalLayout_11.addWidget(self.removeTableFrame)
 
         self.containerPages.addWidget(self.RemoveWidget)
+
+        self.ChooseTableDataWidget = QWidget()
+        self.ChooseTableDataWidget.setObjectName(u"ChooseTableDataWidget")
+        self.verticalLayout_19 = QVBoxLayout(self.ChooseTableDataWidget)
+        self.verticalLayout_19.setSpacing(0)
+        self.verticalLayout_19.setObjectName(u"verticalLayout_19")
+        self.verticalLayout_19.setContentsMargins(5, 0, 5, 15)
+        self.howToChooseFileLabel = QLabel(self.ChooseTableDataWidget)
+        self.howToChooseFileLabel.setObjectName(u"howToChooseFileLabel")
+        font12 = QFont()
+        font12.setFamily(u"Bahnschrift")
+        font12.setPointSize(14)
+        font12.setItalic(True)
+        self.howToChooseFileLabel.setFont(font12)
+        self.howToChooseFileLabel.setStyleSheet(u"color: white;")
+
+        self.verticalLayout_19.addWidget(self.howToChooseFileLabel)
+
+        self.chooseFileOkButtonVerticalLayout = QVBoxLayout()
+        self.chooseFileOkButtonVerticalLayout.setObjectName(u"chooseFileOkButtonVerticalLayout")
+        self.insertPathToFileHorizontalLayout = QHBoxLayout()
+        self.insertPathToFileHorizontalLayout.setSpacing(25)
+        self.insertPathToFileHorizontalLayout.setContentsMargins(15, 0, 5, 0)
+        self.insertPathToFileHorizontalLayout.setObjectName(u"insertPathToFileHorizontalLayout")
+        self.choosePathLineEdit = QLineEdit(self.ChooseTableDataWidget)
+        self.choosePathLineEdit.setObjectName(u"choosePathLineEdit")
+        self.choosePathLineEdit.setMinimumSize(QSize(0, height_display / 18.56))
+        self.choosePathLineEdit.setFont(font10)
+        self.choosePathLineEdit.setStyleSheet(u"color: white;\n"
+                                              "border: 4px solid white;\n"
+                                              "border-radius: 15px;")
+        self.choosePathLineEdit.setAlignment(Qt.AlignCenter)
+
+        self.insertPathToFileHorizontalLayout.addWidget(self.choosePathLineEdit)
+
+        self.toolPushButton = QToolButton(self.ChooseTableDataWidget)
+        self.toolPushButton.setObjectName(u"toolPushButton")
+        self.toolPushButton.setMinimumSize(QSize(width_display / 27.52, height_display / 20))
+        self.toolPushButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.toolPushButton.setStyleSheet(u"background-color: #bd6e38;\n"
+                                          "color: white;\n"
+                                          "border: 4px solid white;\n"
+                                          "border-radius: 15px;\n"
+                                          "margin-right: 20%;")
+
+        self.insertPathToFileHorizontalLayout.addWidget(self.toolPushButton)
+
+        self.chooseFileOkButtonVerticalLayout.addLayout(self.insertPathToFileHorizontalLayout)
+
+        self.OKButton = QPushButton(self.ChooseTableDataWidget)
+        self.OKButton.setObjectName(u"OKButton")
+        self.OKButton.setMinimumSize(QSize(width_display / 15.6, height_display / 18.16))
+        self.OKButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.OKButton.setFont(font6)
+        self.OKButton.setStyleSheet(u"background-color: #bd6e38;\n"
+                                    "color: white;\n"
+                                    "border: 4px solid white;\n"
+                                    "border-radius: 15px;\n"
+                                    "")
+
+        self.chooseFileOkButtonVerticalLayout.addWidget(self.OKButton, 0, Qt.AlignHCenter | Qt.AlignVCenter)
+
+        self.confirmFileLabel = AnimationLabel(self.ChooseTableDataWidget)
+        self.confirmFileLabel.setObjectName(u"confirmFileLabel")
+        self.confirmFileLabel.setMinimumSize(QSize(319, 108))
+        self.confirmFileLabel.setFont(font10)
+        self.confirmFileLabel.setStyleSheet(u"font-size: 23px")
+        self.confirmFileLabel.setAlignment(Qt.AlignCenter)
+
+        self.chooseFileOkButtonVerticalLayout.addWidget(self.confirmFileLabel)
+
+        self.verticalLayout_19.addLayout(self.chooseFileOkButtonVerticalLayout)
+
+        self.containerPages.addWidget(self.ChooseTableDataWidget)
 
         self.horizontalLayout_4.addWidget(self.containerPages)
 
@@ -961,10 +1038,21 @@ class Ui_Main(object):
                                                              None))
         self.addNameLabel.setText(QCoreApplication.translate("Main", u"Nume: ", None))
         self.addPushBUtton.setText(QCoreApplication.translate("Main", u"Adaug\u0103", None))
+        self.confirmationLabel.setText(QCoreApplication.translate("Main",
+                                                                  u"<html><head/><body><p align=\"center\"><span style=\" font-size:17pt;\">Clientul a fost adaugat cu succes</span></p></body></html>",
+                                                                  None))
         self.quitPushButton.setText(QCoreApplication.translate("Main", u"Renun\u021b\u0103", None))
         self.removeLabel.setText(QCoreApplication.translate("Main",
                                                             u"<html><head/><body><p align=\"center\">Pentru a \u0219terge un client trebuie s\u0103 </p><p align=\"center\">selecta\u021bi r\u00e2ndul corespunz\u0103tor</p></body></html>",
                                                             None))
+        self.confirmDeletionLabel.setText(QCoreApplication.translate("Main", u"<html><head/><body><p align=\"center\"><span style=\" font-size:17pt;\">Clientul a fost \u0219ters cu succes</span></p></body></html>", None))
         self.removePushButton.setText(QCoreApplication.translate("Main", u"\u0218terge", None))
         self.quitPushButton_2.setText(QCoreApplication.translate("Main", u"Renun\u021b\u0103", None))
+        self.howToChooseFileLabel.setText(QCoreApplication.translate("Main",
+                                                                     u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Aici poti alege baza de date(tabelul Excel cu care vei lucra).</span></p><p align=\"center\"><span style=\" font-size:14pt;\"> Fisierul trebuie s\u0103 respecte num\u0103rul de coloane(4: Nume, ID, Dat\u0103 creare, Dat\u0103 expirare).</span></p><p align=\"center\"><span style=\" font-size:14pt;\"> \u00cen caz contrar, aplica\u021bia nu va fun\u021biona. Pute\u021bi schimba fisierul oric\u00e2nd, dac\u0103 dori\u021bi.</span></p></body></html>",
+                                                                     None))
+        self.toolPushButton.setText(QCoreApplication.translate("Main", u"...", None))
+        self.OKButton.setText(QCoreApplication.translate("Main", u"OK", None))
+        self.confirmFileLabel.setText(QCoreApplication.translate("Main", u"<html><head/><body><p align=\"center\"><span style=\" font-size:17pt;\">Fisierul a fost adaugat cu succes</span></p></body></html>", None))
+
     # retranslateUi

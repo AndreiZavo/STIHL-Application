@@ -10,14 +10,14 @@
 import pyautogui
 import pandas as pd
 from PySide2.QtCore import (QCoreApplication, QMetaObject,
-                            QSize, Qt, QSortFilterProxyModel, QRect)
+                            QSize, Qt, QSortFilterProxyModel)
 from PySide2.QtGui import (QCursor, QFont,
                            QIcon)
 from PySide2.QtWidgets import *
 from ClientsTableView import TableModel
-from Domain.Client import Client
-from Repository import FileRepository
-from Service import Service
+from Backend.Domain.Client import Client
+from Backend.Repository import FileRepository
+from Backend.Service import Service
 
 from screeninfo import get_monitors
 

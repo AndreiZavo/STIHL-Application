@@ -15,9 +15,9 @@ from PySide2.QtGui import (QCursor, QFont,
                            QIcon)
 from PySide2.QtWidgets import *
 from ClientsTableView import TableModel
-from Domain.Client import Client
-from Repository import FileRepository
-from Service import Service
+from Backend.Domain.Client import Client
+from Backend.Repository import FileRepository
+from Backend.Service import Service
 
 repository = FileRepository("../test.csv", Client.read_from_file, Client.write_to_file)
 service = Service(repository)

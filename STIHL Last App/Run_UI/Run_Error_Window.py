@@ -8,11 +8,12 @@ from UI_py.ui_ErrorWindow import Ui_errorWindow
 
 
 class ErrorWindow(QWidget):
-    def __init__(self):
+    def __init__(self, message):
+        self.message = message
         QWidget.__init__(self)
         self.ui = Ui_errorWindow()
 
-        self.ui.setupUi(self)
+        self.ui.setupUi(self, self.message)
 
         # Hide the preformed toolbar
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
@@ -37,6 +38,9 @@ class ErrorWindow(QWidget):
 
         # Set on what elements the moveWindow applies
         self.ui.topbar_menu.mouseMoveEvent = moveWindow
+
+        # blocks the functionalities of main window
+        self.setWindowModality(Qt.ApplicationModal)
 
         self.show()
 

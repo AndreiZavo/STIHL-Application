@@ -1,11 +1,24 @@
+##########################################################
+#
+#   BY: Zavorodnic Andrei
+#   V: 1.4
+#
+#########################################################
+import os
 import subprocess
 import sys
-
+from openpyxl import Workbook
 from PySide2 import QtCore, QtGui
-from PySide2.QtCore import QPropertyAnimation
+from PySide2.QtCore import QPropertyAnimation, QSortFilterProxyModel
+import pandas as pd
+from Backend.Domain.Client import Client
+from Backend.Repository import FileRepository
+from Backend.Service import Service
+from Backend.Validations import Valid
+from ClientsTableView import TableModel
 from PDF_py import PDF_Generator
-from Domain.Date import Date
-from Exceptions import ValidException, RepositoryException
+from Backend.Domain.Date import Date
+from Backend.Exceptions import ValidException, RepositoryException
 from Run_UI.Run_Error_Window import ErrorWindow
 from ui_MainWindow import *
 
@@ -25,8 +38,11 @@ os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "0"  # command for scaling
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
+        self.first_client_added = True
         self.ui = Ui_Main()
         self.ui.setupUi(self)
+        self.__repository = None
+        self.__service = None
 
         # Hide the preformed toolbar
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
@@ -37,31 +53,36 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("STIHL Server")
 
         # Set actions for buttons
-        self.connectFutures()
+        self.connect_futures()
 
         # set default page
         self.ui.containerPages.setCurrentWidget(self.ui.HomeWWidget)
 
         # Set action for left click mouse for moving the window
-        def moveWindow(e):
+        def move_window(e):
             if self.isMaximized() is False:
                 if e.buttons() == Qt.LeftButton:
                     self.move(self.pos() + e.globalPos() - self.clickPosition)
                     self.clickPosition = e.globalPos()
                     e.accept()
 
-        # set on what elements the moveWindow applies
-        self.ui.topbar_menu.mouseMoveEvent = moveWindow
-        self.ui.titleLabel.mouseMoveEvent = moveWindow
+        # set on what elements the move_window applies
+        self.ui.topbar_menu.mouseMoveEvent = move_window
+        self.ui.titleLabel.mouseMoveEvent = move_window
 
         # set window size grip for bottom right corner
         QSizeGrip(self.ui.size_grip)
+
+        # hide confirmation massages
+        self.ui.confirmationLabel.startFadeOut()
+        self.ui.confirmDeletionLabel.startFadeOut()
+        self.ui.confirmFileLabel.startFadeOut()
 
         self.show()
 
     """ Function sets actions for buttons """
 
-    def connectFutures(self):
+    def connect_futures(self):
         # minimize the window
         self.ui.minimazeButton.clicked.connect(lambda: self.showMinimized())
         # maximize the window
@@ -76,12 +97,14 @@ class MainWindow(QMainWindow):
         # navigate to search page
         self.ui.listButton.clicked.connect(lambda: self.set_listen_tab())
         # navigate to add page
-        self.ui.addButton.clicked.connect(lambda: self.ui.containerPages.setPage4())
+        self.ui.addButton.clicked.connect(lambda: self.set_add_tab())
         # navigate to delete page
         self.ui.removeButton.clicked.connect(lambda: self.set_remove_tab())
         # navigate to view client page
-        self.ui.ViewClientButton.clicked.connect(
-            lambda: self.ui.containerPages.setPage3())
+        self.ui.ViewClientButton.clicked.connect(lambda: self.ui.containerPages.setPage3())
+        # navigate to choose table page
+        self.ui.chooseTablePushButton.clicked.connect(lambda: self.set_choose_tab())
+
         # make full row selection in search, in client's table
         self.ui.clientsDataTableView.clicked.connect(lambda: self.show_view_button())
         # close slide menu for when page is accessed
@@ -97,16 +120,69 @@ class MainWindow(QMainWindow):
         self.ui.removetableView.clicked.connect(lambda: self.view_clicked())
         self.ui.removePushButton.clicked.connect(lambda: self.remove_client())
         self.ui.quitPushButton_2.clicked.connect(lambda: self.empty_remove_input())
-        self.ui.removeSearchbarLineEdit.textChanged.connect(self.ui.remove_filter_proxy_model.setFilterRegExp)
         # search a client
         self.ui.clientsDataTableView.clicked.connect(lambda: self.show_view_button())
         self.ui.ViewClientButton.clicked.connect(lambda: self.show_client())
-        self.ui.searchbarLineEdit.textChanged.connect(self.ui.filter_proxy_model.setFilterRegExp)
         self.ui.alphabeticalOrderRadioButton.clicked.connect(lambda: self.sort_by_name())
         self.ui.oldDateOrderRadioButton.clicked.connect(lambda: self.sort_by_old_date())
         self.ui.recentDateOrderRadioButton.clicked.connect(lambda: self.sort_by_recent_date())
         # view a client
         self.ui.PrintButton.clicked.connect(lambda: self.print_client())
+        # choose an database file
+        self.ui.toolPushButton.clicked.connect(lambda: self.choose_file())
+        self.ui.OKButton.clicked.connect(lambda: self.change_table())
+
+    '''Function sets the choose tab as the current one and hides confirmation messages'''
+
+    def set_choose_tab(self):
+        self.ui.containerPages.setPage6()
+        self.ui.confirmFileLabel.setVisible(False)
+
+    '''Function sets the add tab as the current one and hides confirmation messages'''
+
+    def set_add_tab(self):
+        self.ui.containerPages.setPage4()
+        self.ui.confirmationLabel.setVisible(False)
+
+    @staticmethod
+    def create_table_file_name(table_name):
+        if not os.path.exists(table_name):
+            workbook = Workbook(table_name)
+            workbook.save(table_name)
+            workbook.close()
+        return table_name
+
+    ''' Function changes excel table to use for the application'''
+
+    def change_table(self):
+        validator = Valid()
+        path = self.ui.choosePathLineEdit.text()
+        if path == '':
+            ErrorWindow('Nu a fost selectat niciun fisier.')
+        try:
+            validator.validate_file(path)
+            self.__repository = FileRepository(self.create_table_file_name(path), Client.read_from_file,
+                                               Client.write_to_file)
+            self.__service = Service(self.__repository)
+
+            self.populate_table()
+            self.populate_remove_table()
+
+            self.ui.choosePathLineEdit.setText("")
+            self.ui.confirmFileLabel.setStyleSheet(u"font-size: 60px;\n")
+            self.ui.confirmFileLabel.setVisible(True)
+            self.ui.confirmFileLabel.startAnimation()
+
+        except ValidException:
+            self.ui.choosePathLineEdit.setText("")
+            ErrorWindow('Fisierul ales nu este corespunzator.<p align=\"center\">Fisierul trebuie sa contina pe fiecare rand un nume,</p>'
+                        '<p align=\"center\">urmat de un id, o data de creare si o data de expirare</p>')
+
+    ''' Function opens a choose file window letting user to select the desired file '''
+
+    def choose_file(self):
+        file_name = QFileDialog.getOpenFileName(self, 'Open file', '', 'Excel Files (*.xlsx)')
+        self.ui.choosePathLineEdit.setText(file_name[0])
 
     ''' Function sets sorting to be by recent date '''
 
@@ -124,6 +200,7 @@ class MainWindow(QMainWindow):
         self.ui.clientsDataTableView.sortByColumn(0, Qt.AscendingOrder)
 
     ''' Function generates a pdf according to the data selected'''
+
     def print_client(self):
         index = self.ui.clientsDataTableView.selectionModel().currentIndex()
         name = index.sibling(index.row(), 0).data()
@@ -134,6 +211,7 @@ class MainWindow(QMainWindow):
         subprocess.Popen([path_to_script_dir + '\PDFs\\' + pdf.name + '.pdf'], shell=True)
 
     ''' Function shows client in another window '''
+
     def show_client(self):
         self.ui.containerPages.setCurrentWidget(self.ui.ViewClientWidget)
         self.ui.ViewClientButton.setVisible(False)
@@ -152,6 +230,7 @@ class MainWindow(QMainWindow):
         self.validate_client(expiration_date)
 
     """ Function validates if the current day is bigger then the expiration date """
+
     def validate_client(self, expiration):
         expiration_date = expiration.split('-')
         year = int(expiration_date[0])
@@ -165,6 +244,7 @@ class MainWindow(QMainWindow):
             self.ui.Valid_InvalidLabel.setText('Client Valid')
 
     ''' Hide the View button and make window principal window'''
+
     def set_listen_tab(self):
         self.ui.containerPages.setPage2()
         self.ui.clientsDataTableView.clearSelection()
@@ -185,26 +265,30 @@ class MainWindow(QMainWindow):
         self.ui.clientsDataTableView.sortByColumn(2, Qt.AscendingOrder)
 
     ''' Function shows View button '''
+
     def show_view_button(self):
         self.ui.ViewClientButton.setVisible(True)
 
     ''' Function deletes text from remove-client search bar'''
+
     def empty_remove_input(self):
         self.ui.removeSearchbarLineEdit.setText("")
 
     ''' Function hides the remove and quit buttons and refreshes the remove table view'''
+
     def set_remove_tab(self):
         self.ui.containerPages.setPage5()
         self.ui.removePushButton.setVisible(False)
         self.ui.quitPushButton_2.setVisible(False)
+        self.ui.confirmDeletionLabel.setVisible(False)
         self.ui.removetableView.clearSelection()
 
     ''' Function populate removeTableView table with the new data'''
+
     def populate_remove_table(self):
-        data = pd.DataFrame(service.repository,
+        data = pd.DataFrame(self.__service.repository,
                             columns=['Nume', 'ID', 'Creat la', 'Expiră la'])
         self.ui.remove_model = TableModel(data)
-
         self.ui.remove_filter_proxy_model = QSortFilterProxyModel()
         self.ui.remove_filter_proxy_model.setSourceModel(self.ui.remove_model)
         self.ui.remove_filter_proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
@@ -222,18 +306,25 @@ class MainWindow(QMainWindow):
                     os.remove(os.path.join(parent, fn))
 
     ''' Function removes client from database and hides remove and quit button after that'''
+
     def remove_client(self):
         index = self.ui.removetableView.currentIndex()
         name_to_remove = index.sibling(index.row(), 0).data()
         id_to_remove = index.sibling(index.row(), 1).data()
-        service.remove_client(name_to_remove, id_to_remove)     # removes client from database
+        self.__service.remove_client(name_to_remove, id_to_remove)  # removes client from database
 
-        self.removes_file_from_folder(name_to_remove + ".pdf", "PDFs")    # removes pdf file with client name
+        self.removes_file_from_folder(name_to_remove + ".pdf", "PDFs")  # removes pdf file with client name
 
         self.removes_file_from_folder(name_to_remove + ".png", "Barcodes")  # removes barcode png file with client name
 
         self.populate_table()
         self.populate_remove_table()
+
+        self.ui.removeSearchbarLineEdit.setText("")
+
+        self.ui.confirmDeletionLabel.setStyleSheet(u"font-size: 60px;\n")
+        self.ui.confirmDeletionLabel.setVisible(True)
+        self.ui.confirmDeletionLabel.startAnimation()
 
         self.ui.removePushButton.setVisible(False)
         self.ui.quitPushButton_2.setVisible(False)
@@ -252,7 +343,8 @@ class MainWindow(QMainWindow):
     ''' Function fills again the table with the new clients '''
 
     def populate_table(self):
-        data = pd.DataFrame(service.repository,
+        pass
+        data = pd.DataFrame(self.__service.repository,
                             columns=['Nume', 'ID', 'Creat la', 'Expiră la'])
         self.ui.model = TableModel(data)
         # filter proxy model
@@ -265,14 +357,26 @@ class MainWindow(QMainWindow):
 
         self.ui.searchbarLineEdit.textChanged.connect(self.ui.filter_proxy_model.setFilterRegExp)
 
+    def set_confirmation_message(self, message):
+        self.ui.confirmationLabel.setText(message)
+        self.ui.confirmationLabel.setStyleSheet(u"font-size: 60px;\n")
+        self.ui.confirmationLabel.setVisible(True)
+        self.ui.confirmationLabel.startAnimation()
+
     ''' Function adds client to database '''
 
     def add_client_to_data_base(self):
         name_to_add = self.ui.addLineEdit.text()
         try:
-            service.add_client(name_to_add)
+            if self.__service is None:
+                self.set_confirmation_message('Nu a fost niciun tabel selectat')
+            else:
+                self.__service.add_client(name_to_add)
+                self.set_confirmation_message('Clientul a fost adaugat cu succes')
         except ValidException:
-            ErrorWindow()
+            ErrorWindow(
+                'Inputul introdus nu este comform modului de procesare al programului. < / p > < p align =\"center\">La introducerea unui nou client, utilizatorul trebuie s\u0103 insereze un nou nume</p><p align=\"center\">compus din nume \u0219i prenume(sau prenume \u0219i nume) fiecare cu majuscul\u0103,</p><p align=\"center\">av\u00e2nd un spa\u021biu \u00eentre ele.'
+            )
         except RepositoryException:
             self.add_client_to_data_base()
 
@@ -290,6 +394,7 @@ class MainWindow(QMainWindow):
             self.ui.listButton.setText(QCoreApplication.translate("Main", u"", None))
             self.ui.addButton.setText(QCoreApplication.translate("Main", u"", None))
             self.ui.removeButton.setText(QCoreApplication.translate("Main", u"", None))
+            self.ui.chooseTablePushButton.setText(QCoreApplication.translate("Main", u"", None))
 
             # Animate the transition
             self.animation = QPropertyAnimation(self.ui.left_side_menu,
@@ -333,6 +438,7 @@ class MainWindow(QMainWindow):
             self.ui.listButton.setText(QCoreApplication.translate("Main", u"     Caut\u0103", None))
             self.ui.addButton.setText(QCoreApplication.translate("Main", u"     Adaug\u0103", None))
             self.ui.removeButton.setText(QCoreApplication.translate("Main", u"    \u0218terge", None))
+            self.ui.chooseTablePushButton.setText(QCoreApplication.translate("Main", u"     Fi\u0219ier", None))
         # If maximized
         else:
             # Restore menu
@@ -341,6 +447,7 @@ class MainWindow(QMainWindow):
             self.ui.listButton.setText(QCoreApplication.translate("Main", u"", None))
             self.ui.addButton.setText(QCoreApplication.translate("Main", u"", None))
             self.ui.removeButton.setText(QCoreApplication.translate("Main", u"", None))
+            self.ui.chooseTablePushButton.setText(QCoreApplication.translate("Main", u"", None))
 
         # Animate the transition
         self.animation = QPropertyAnimation(self.ui.left_side_menu,

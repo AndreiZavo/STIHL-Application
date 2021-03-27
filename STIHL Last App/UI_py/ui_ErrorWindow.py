@@ -1,12 +1,3 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'ErrorWindowelHYqi.ui'
-##
-## Created by: Qt User Interface Compiler version 5.15.0
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
 
 from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
                             QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
@@ -21,7 +12,9 @@ width_display, height_display = pyautogui.size()
 
 
 class Ui_errorWindow(object):
-    def setupUi(self, errorWindow):
+
+    def setupUi(self, errorWindow, message):
+        self._message = message
         if not errorWindow.objectName():
             errorWindow.setObjectName(u"errorWindow")
         errorWindow.resize(406, 294)
@@ -124,7 +117,7 @@ class Ui_errorWindow(object):
         errorWindow.setWindowTitle(QCoreApplication.translate("errorWindow", u"Form", None))
         self.closeButton.setText("")
         self.errorInfoLabel.setText(QCoreApplication.translate("errorWindow",
-                                                               u"<html><head/><body><p align=\"center\">Inputul introdus nu este comform modului de procesare al programului.</p><p align=\"center\">La introducerea unui nou client, utilizatorul trebuie s\u0103 insereze un nou nume</p><p align=\"center\">compus din nume \u0219i prenume(sau prenume \u0219i nume) fiecare cu majuscul\u0103,</p><p align=\"center\">av\u00e2nd un spa\u021biu \u00eentre ele.</p></body></html>",
+                                                               u"<html><head/><body><p align=\"center\">" + self._message + "</p></body></html>",
                                                                None))
         self.OKButton.setText(QCoreApplication.translate("errorWindow", u"OK", None))
     # retranslateUi

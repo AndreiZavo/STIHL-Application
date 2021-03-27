@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'MainWindowdRWVDp.ui'
+## Form generated from reading UI file 'MainWindowMbqMAs.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -18,7 +18,7 @@ class Ui_Main(object):
     def setupUi(self, Main):
         if not Main.objectName():
             Main.setObjectName(u"Main")
-        Main.resize(887, 539)
+        Main.resize(718, 453)
         Main.setMinimumSize(QSize(718, 453))
         Main.setStyleSheet(u"")
         self.centralwidget = QWidget(Main)
@@ -563,6 +563,7 @@ class Ui_Main(object):
         self.AddWidget = QWidget()
         self.AddWidget.setObjectName(u"AddWidget")
         self.verticalLayout_6 = QVBoxLayout(self.AddWidget)
+        self.verticalLayout_6.setSpacing(0)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.addTextFrame = QFrame(self.AddWidget)
         self.addTextFrame.setObjectName(u"addTextFrame")
@@ -634,7 +635,21 @@ class Ui_Main(object):
         self.horizontalLayout_5.addWidget(self.addLineEdit)
 
 
-        self.verticalLayout_6.addWidget(self.InsertNameFrame)
+        self.verticalLayout_6.addWidget(self.InsertNameFrame, 0, Qt.AlignBottom)
+
+        self.confirmationLabel = QLabel(self.AddWidget)
+        self.confirmationLabel.setObjectName(u"confirmationLabel")
+        self.confirmationLabel.setMinimumSize(QSize(319, 108))
+        font10 = QFont()
+        font10.setFamily(u"Bahnschrift")
+        font10.setItalic(True)
+        self.confirmationLabel.setFont(font10)
+        self.confirmationLabel.setStyleSheet(u"color: white;\n"
+"font-size: 23px;\n"
+"")
+        self.confirmationLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_6.addWidget(self.confirmationLabel)
 
         self.addButtonsFrame = QFrame(self.AddWidget)
         self.addButtonsFrame.setObjectName(u"addButtonsFrame")
@@ -647,10 +662,10 @@ class Ui_Main(object):
         self.addPushBUtton = QPushButton(self.addButtonsFrame)
         self.addPushBUtton.setObjectName(u"addPushBUtton")
         self.addPushBUtton.setMinimumSize(QSize(0, 34))
-        font10 = QFont()
-        font10.setFamily(u"Bahnschrift")
-        font10.setPointSize(14)
-        self.addPushBUtton.setFont(font10)
+        font11 = QFont()
+        font11.setFamily(u"Bahnschrift")
+        font11.setPointSize(14)
+        self.addPushBUtton.setFont(font11)
         self.addPushBUtton.setStyleSheet(u"background-color: #bd6e38;\n"
 "color: white;\n"
 "border: 4px solid white;\n"
@@ -662,7 +677,7 @@ class Ui_Main(object):
         self.quitPushButton = QPushButton(self.addButtonsFrame)
         self.quitPushButton.setObjectName(u"quitPushButton")
         self.quitPushButton.setMinimumSize(QSize(0, 34))
-        self.quitPushButton.setFont(font10)
+        self.quitPushButton.setFont(font11)
         self.quitPushButton.setStyleSheet(u"background-color: #bd6e38;\n"
 "color: white;\n"
 "border: 4px solid white;\n"
@@ -720,11 +735,13 @@ class Ui_Main(object):
         self.removeSearchbarFrame.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_10 = QHBoxLayout(self.removeSearchbarFrame)
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.horizontalLayout_10.setContentsMargins(0, -1, 25, -1)
         self.removeSearchbarLineEdit = QLineEdit(self.removeSearchbarFrame)
         self.removeSearchbarLineEdit.setObjectName(u"removeSearchbarLineEdit")
         self.removeSearchbarLineEdit.setStyleSheet(u"color: white;\n"
 "border: 1px solid white;\n"
-"border-radius: 5px;")
+"border-radius: 5px;\n"
+"margin-right: 10px;")
         self.removeSearchbarLineEdit.setAlignment(Qt.AlignCenter)
 
         self.horizontalLayout_10.addWidget(self.removeSearchbarLineEdit)
@@ -734,6 +751,17 @@ class Ui_Main(object):
 
 
         self.verticalLayout_16.addLayout(self.verticalLayout_15)
+
+        self.confirmDeletionLabel = QLabel(self.removeElementsFrame)
+        self.confirmDeletionLabel.setObjectName(u"confirmDeletionLabel")
+        self.confirmDeletionLabel.setMinimumSize(QSize(319, 108))
+        self.confirmDeletionLabel.setFont(font10)
+        self.confirmDeletionLabel.setStyleSheet(u"color: white;\n"
+"font-size: 23px;\n"
+"")
+        self.confirmDeletionLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_16.addWidget(self.confirmDeletionLabel, 0, Qt.AlignLeft)
 
         self.removeButtonsFrame = QFrame(self.removeElementsFrame)
         self.removeButtonsFrame.setObjectName(u"removeButtonsFrame")
@@ -746,7 +774,7 @@ class Ui_Main(object):
         self.removePushButton = QPushButton(self.removeButtonsFrame)
         self.removePushButton.setObjectName(u"removePushButton")
         self.removePushButton.setMinimumSize(QSize(0, 34))
-        self.removePushButton.setFont(font10)
+        self.removePushButton.setFont(font11)
         self.removePushButton.setStyleSheet(u"background-color: #bd6e38;\n"
 "color: white;\n"
 "border: 4px solid white;\n"
@@ -758,7 +786,7 @@ class Ui_Main(object):
         self.quitPushButton_2 = QPushButton(self.removeButtonsFrame)
         self.quitPushButton_2.setObjectName(u"quitPushButton_2")
         self.quitPushButton_2.setMinimumSize(QSize(0, 34))
-        self.quitPushButton_2.setFont(font10)
+        self.quitPushButton_2.setFont(font11)
         self.quitPushButton_2.setStyleSheet(u"background-color: #bd6e38;\n"
 "color: white;\n"
 "border: 4px solid white;\n"
@@ -792,34 +820,40 @@ class Ui_Main(object):
         self.horizontalLayout_11.addWidget(self.removeTableFrame)
 
         self.containerPages.addWidget(self.RemoveWidget)
-        self.ChooseDataWidget = QWidget()
-        self.ChooseDataWidget.setObjectName(u"ChooseDataWidget")
-        self.verticalLayout_18 = QVBoxLayout(self.ChooseDataWidget)
-        self.verticalLayout_18.setSpacing(10)
-        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
-        self.verticalLayout_18.setContentsMargins(0, 35, 0, 15)
-        self.informationLabel = QLabel(self.ChooseDataWidget)
-        self.informationLabel.setObjectName(u"informationLabel")
-        self.informationLabel.setStyleSheet(u"color: white;")
+        self.ChooseTableDataWidget = QWidget()
+        self.ChooseTableDataWidget.setObjectName(u"ChooseTableDataWidget")
+        self.verticalLayout_19 = QVBoxLayout(self.ChooseTableDataWidget)
+        self.verticalLayout_19.setSpacing(0)
+        self.verticalLayout_19.setObjectName(u"verticalLayout_19")
+        self.verticalLayout_19.setContentsMargins(5, 0, 5, 15)
+        self.howToChooseFileLabel = QLabel(self.ChooseTableDataWidget)
+        self.howToChooseFileLabel.setObjectName(u"howToChooseFileLabel")
+        font12 = QFont()
+        font12.setFamily(u"Bahnschrift")
+        font12.setPointSize(14)
+        font12.setItalic(True)
+        self.howToChooseFileLabel.setFont(font12)
+        self.howToChooseFileLabel.setStyleSheet(u"color: white;")
 
-        self.verticalLayout_18.addWidget(self.informationLabel, 0, Qt.AlignTop)
+        self.verticalLayout_19.addWidget(self.howToChooseFileLabel)
 
-        self.horizontalLayout_12 = QHBoxLayout()
-        self.horizontalLayout_12.setSpacing(20)
-        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
-        self.horizontalLayout_12.setContentsMargins(28, 10, 12, -1)
-        self.choosePathLineEdit = QLineEdit(self.ChooseDataWidget)
+        self.chooseFileOkButtonVerticalLayout = QVBoxLayout()
+        self.chooseFileOkButtonVerticalLayout.setObjectName(u"chooseFileOkButtonVerticalLayout")
+        self.insertPathToFileHorizontalLayout = QHBoxLayout()
+        self.insertPathToFileHorizontalLayout.setSpacing(10)
+        self.insertPathToFileHorizontalLayout.setObjectName(u"insertPathToFileHorizontalLayout")
+        self.choosePathLineEdit = QLineEdit(self.ChooseTableDataWidget)
         self.choosePathLineEdit.setObjectName(u"choosePathLineEdit")
         self.choosePathLineEdit.setMinimumSize(QSize(0, 40))
-        self.choosePathLineEdit.setFont(font10)
+        self.choosePathLineEdit.setFont(font11)
         self.choosePathLineEdit.setStyleSheet(u"color: white;\n"
 "border: 4px solid white;\n"
 "border-radius: 15px;")
         self.choosePathLineEdit.setAlignment(Qt.AlignCenter)
 
-        self.horizontalLayout_12.addWidget(self.choosePathLineEdit, 0, Qt.AlignTop)
+        self.insertPathToFileHorizontalLayout.addWidget(self.choosePathLineEdit)
 
-        self.toolPushButton = QToolButton(self.ChooseDataWidget)
+        self.toolPushButton = QToolButton(self.ChooseTableDataWidget)
         self.toolPushButton.setObjectName(u"toolPushButton")
         self.toolPushButton.setMinimumSize(QSize(80, 40))
         self.toolPushButton.setCursor(QCursor(Qt.PointingHandCursor))
@@ -829,25 +863,44 @@ class Ui_Main(object):
 "border-radius: 15px;\n"
 "margin-right: 20%;")
 
-        self.horizontalLayout_12.addWidget(self.toolPushButton, 0, Qt.AlignTop)
+        self.insertPathToFileHorizontalLayout.addWidget(self.toolPushButton)
 
 
-        self.verticalLayout_18.addLayout(self.horizontalLayout_12)
+        self.chooseFileOkButtonVerticalLayout.addLayout(self.insertPathToFileHorizontalLayout)
 
-        self.warningLabel = QLabel(self.ChooseDataWidget)
-        self.warningLabel.setObjectName(u"warningLabel")
-        self.warningLabel.setMinimumSize(QSize(513, 140))
-        self.warningLabel.setMaximumSize(QSize(513, 140))
-        font11 = QFont()
-        font11.setFamily(u"Bahnschrift")
-        font11.setPointSize(1)
-        self.warningLabel.setFont(font11)
-        self.warningLabel.setStyleSheet(u"color: white;\n"
-"border: 6px solid red;\n"
-"border-radius: 15%;")
+        self.OKButton = QPushButton(self.ChooseTableDataWidget)
+        self.OKButton.setObjectName(u"OKButton")
+        self.OKButton.setMinimumSize(QSize(81, 31))
+        self.OKButton.setFont(font6)
+        self.OKButton.setStyleSheet(u"background-color: #bd6e38;\n"
+"color: white;\n"
+"border: 4px solid white;\n"
+"border-radius: 15px;\n"
+"")
 
-        self.verticalLayout_18.addWidget(self.warningLabel, 0, Qt.AlignHCenter)
+        self.chooseFileOkButtonVerticalLayout.addWidget(self.OKButton, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
+        self.confirmFileLabel = QLabel(self.ChooseTableDataWidget)
+        self.confirmFileLabel.setObjectName(u"confirmFileLabel")
+        self.confirmFileLabel.setMinimumSize(QSize(319, 108))
+        self.confirmFileLabel.setFont(font10)
+        self.confirmFileLabel.setStyleSheet(u"color: white;\n"
+"font-size: 23px;\n"
+"")
+        self.confirmFileLabel.setAlignment(Qt.AlignCenter)
+
+        self.chooseFileOkButtonVerticalLayout.addWidget(self.confirmFileLabel)
+
+
+        self.verticalLayout_19.addLayout(self.chooseFileOkButtonVerticalLayout)
+
+        self.containerPages.addWidget(self.ChooseTableDataWidget)
+        self.ChooseDataWidget = QWidget()
+        self.ChooseDataWidget.setObjectName(u"ChooseDataWidget")
+        self.verticalLayout_18 = QVBoxLayout(self.ChooseDataWidget)
+        self.verticalLayout_18.setSpacing(0)
+        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
+        self.verticalLayout_18.setContentsMargins(0, 35, 0, 15)
         self.containerPages.addWidget(self.ChooseDataWidget)
 
         self.horizontalLayout_4.addWidget(self.containerPages)
@@ -862,7 +915,7 @@ class Ui_Main(object):
 
         self.retranslateUi(Main)
 
-        self.containerPages.setCurrentIndex(2)
+        self.containerPages.setCurrentIndex(5)
 
 
         QMetaObject.connectSlotsByName(Main)
@@ -871,7 +924,7 @@ class Ui_Main(object):
     def retranslateUi(self, Main):
         Main.setWindowTitle(QCoreApplication.translate("Main", u"MainWindow", None))
         self.slideMenuButton.setText("")
-        self.titleLabel.setText(QCoreApplication.translate("Main", u"<html><head/><body><p>STIHL SERVER</p></body></html>", None))
+        self.titleLabel.setText(QCoreApplication.translate("Main", u"<html><head/><body><p>STIHL Client Register</p></body></html>", None))
         self.minimazeButton.setText("")
         self.maximazeButton.setText("")
         self.closeButton.setText("")
@@ -884,7 +937,7 @@ class Ui_Main(object):
         self.homeTitleLabel.setText(QCoreApplication.translate("Main", u"HOME", None))
         self.homeintroLabel.setText(QCoreApplication.translate("Main", u"<html><head/><body><p>Aceasta este aplica\u021bia pentru gestionarea clien\u021bilor.</p><p>Pentru a vizuliza un client da-\u021bi click pe iconi\u021ba cu lup\u0103. </p><p>Pentru a filtra datele bifa\u021bi, \u00een func\u021bie de preferin\u021b\u0103, c\u0103su\u021bele de sub bara de c\u0103utare.</p><p>Pentru a genera un pdf voucher ap\u0103sa\u021bi, selecta\u021bi clientul dorit, da\u021bi click pe butonul &quot;Vizualizeaz\u0103&quot;</p><p>dup\u0103 care, ap\u0103sa\u021bi &quot;Printare client&quot;.</p><p>Pentru a ad\u0103uga/\u0219terge un client ap\u0103sa\u021bi pe iconi\u021ba cu plus, respectiv &quot;x&quot;.</p></body></html>", None))
         self.recentDateOrderRadioButton.setText(QCoreApplication.translate("Main", u"Dat\u0103 recent\u0103", None))
-        self.oldDateOrderRadioButton.setText(QCoreApplication.translate("Main", u"Dat\u0103 vehce", None))
+        self.oldDateOrderRadioButton.setText(QCoreApplication.translate("Main", u"Dat\u0103 veche", None))
         self.alphabeticalOrderRadioButton.setText(QCoreApplication.translate("Main", u"Ordonare alfabetic\u0103", None))
         self.ViewClientButton.setText(QCoreApplication.translate("Main", u" Vizualizeaz\u0103 ", None))
         self.NameLabel.setText(QCoreApplication.translate("Main", u"Nume:", None))
@@ -895,13 +948,16 @@ class Ui_Main(object):
         self.PrintButton.setText(QCoreApplication.translate("Main", u"  Printeaz\u0103  ", None))
         self.addTextLabel.setText(QCoreApplication.translate("Main", u"<html><head/><body><p align=\"center\">Pentru a ad\u0103uga un client nou trebuie </p><p align=\"center\">s\u0103 introduce\u021bi numele:</p></body></html>", None))
         self.addNameLabel.setText(QCoreApplication.translate("Main", u"Nume: ", None))
+        self.confirmationLabel.setText(QCoreApplication.translate("Main", u"<html><head/><body><p align=\"center\"><span style=\" font-size:17pt;\">Clientul a fost adaugat cu succes</span></p></body></html>", None))
         self.addPushBUtton.setText(QCoreApplication.translate("Main", u"Adaug\u0103", None))
         self.quitPushButton.setText(QCoreApplication.translate("Main", u"Renun\u021b\u0103", None))
         self.removeLabel.setText(QCoreApplication.translate("Main", u"<html><head/><body><p align=\"center\">Pentru a \u0219terge un client trebuie s\u0103  </p><p align=\"center\">selecta\u021bi r\u00e2ndul corespunz\u0103tor</p></body></html>", None))
+        self.confirmDeletionLabel.setText(QCoreApplication.translate("Main", u"<html><head/><body><p align=\"center\"><span style=\" font-size:17pt;\">Clientul a fost \u0219ters cu succes</span></p></body></html>", None))
         self.removePushButton.setText(QCoreApplication.translate("Main", u"\u0218terge", None))
         self.quitPushButton_2.setText(QCoreApplication.translate("Main", u"Renun\u021b\u0103", None))
-        self.informationLabel.setText(QCoreApplication.translate("Main", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Aici poti alege baza de date(tabelul Excel cu care vei lucra).</span></p><p align=\"center\"><span style=\" font-size:14pt;\"> Fisierul trebuie s\u0103 respecte num\u0103rul de coloane(4: Nume, ID, Dat\u0103 creare, Dat\u0103 expirare).</span></p><p align=\"center\"><span style=\" font-size:14pt;\"> \u00cen caz contrar, aplica\u021bia nu va fun\u021biona. Pute\u021bi schimba fisierul oric\u00e2nd, dac\u0103 dori\u021bi.</span></p></body></html>", None))
+        self.howToChooseFileLabel.setText(QCoreApplication.translate("Main", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Aici poti alege baza de date(tabelul Excel cu care vei lucra).</span></p><p align=\"center\"><span style=\" font-size:14pt;\"> Fisierul trebuie s\u0103 respecte num\u0103rul de coloane(4: Nume, ID, Dat\u0103 creare, Dat\u0103 expirare).</span></p><p align=\"center\"><span style=\" font-size:14pt;\"> \u00cen caz contrar, aplica\u021bia nu va fun\u021biona. Pute\u021bi schimba fisierul oric\u00e2nd, dac\u0103 dori\u021bi.</span></p></body></html>", None))
         self.toolPushButton.setText(QCoreApplication.translate("Main", u"...", None))
-        self.warningLabel.setText(QCoreApplication.translate("Main", u"<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">Fi\u0219ierul pe care l-a\u021bi ales nu este corespunz\u0103tor.<br/></span></p><p align=\"center\"><span style=\" font-size:16pt;\">Pentru a continua opera\u021biunile dorite, trebuie s\u0103 alege\u021bi altul.</span></p></body></html>", None))
+        self.OKButton.setText(QCoreApplication.translate("Main", u"OK", None))
+        self.confirmFileLabel.setText(QCoreApplication.translate("Main", u"<html><head/><body><p align=\"center\">Fisierul a fost adaugat cu succes</p></body></html>", None))
     # retranslateUi
 
